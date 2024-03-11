@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>Url Image Puller</title>
+  <script>
+    function handleForm() {
+      const url = document.getElementById('url').value;
+      fetch('/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url })
+      })
+      .then(response => response.json())
+      .then(data => {
+        var results = document.getElementById('results');
+        results.innerHTML = '';
+        for (let i = 0; i < data.length; i++) {
+          results.innerHTML += `<p class="code-p">${data[i]}</p>`;
+          results.classList.add('code');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+  </script>
+</head>
+<body>
+  <div class="main-box">
+    <main>
+      <h1>Url Image Puller</h1>
+      <p>Gives a JSON list of all images from the website</p>
+      <form action="javascript:handleForm()">
+        <input type="text" id="url" name="url" placeholder="Enter url">
+        <input class="submit" type="submit" value="Submit">
+      </form>
+      <div id="results"></div>
+      <h2>Api:</h2>
+      <h3>Usage:</h3>
+      <p>Make a post request with url value in json</p>
+      <h3>Example:</h3>
+      <p class="code">curl --header "Content-Type: application/json" --request POST --data '{"url": "https://lovie.dev/"}' http://localhost:7878</p>
+    </main>
+  </div>
+</body>
+</html>
